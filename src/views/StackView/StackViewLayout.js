@@ -286,6 +286,7 @@ class StackViewLayout extends React.Component {
       const immediateIndex =
         this._immediateIndex == null ? index : this._immediateIndex;
       const currentDragDistance = gesture[isVertical ? 'dy' : 'dx'];
+      const otherDragDistance = gesture[isVertical ? 'dx' : 'dy'];
       const currentDragPosition =
         event.nativeEvent[isVertical ? 'pageY' : 'pageX'];
       const axisLength = isVertical
@@ -314,7 +315,8 @@ class StackViewLayout extends React.Component {
       }
 
       const hasDraggedEnough =
-        Math.abs(currentDragDistance) > RESPOND_THRESHOLD;
+        Math.abs(currentDragDistance) > RESPOND_THRESHOLD
+          && Math.abs(otherDragDistance) < Math.abs(currentDragDistance);
 
       const isOnFirstCard = immediateIndex === 0;
       const shouldSetResponder =
